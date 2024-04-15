@@ -1,35 +1,28 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-const FormulariTasques = props => {
-    const { handleAddItem } = props;
-    const [descripcio, setDescripcio] = useState("");
-    const handleSubmit = e => {
+const FormulariTasques = ({ funcAfegirTasca }) => {
+
+    const [textTasca, setTextTasca] = useState('');
+
+    const enviarForm = e => {
         e.preventDefault();
-        handleAddItem({
-            done: false,
-            id: (+new Date()).toString(),
-            descripcio
-        });
-        setDescripcio("");
+        if (!textTasca.trim()) return;
+        const tascaNova = {
+            id: Date.now(),
+            text: textTasca,
+            completada: false
+        };
+        funcAfegirTasca(tascaNova);
+        setTextTasca('');
     };
+
+    const canviTextTasca = e => {
+        setTextTasca(e.target.value);
+    }
     return (
-        <form onSubmit={handleSubmit}>
-            <div className='todo-list'>
-                <div className='input'>
-                    <input
-                        type='text'
-                        className='text'
-                        value={descripcio}
-                        onChange={e => setDescripcio(e.target.value)}
-                    />
-                    <button
-                        className='button green'
-                        disabled={descripcio ? "" : "disabled"}
-                    >
-                        Afegir
-                    </button>
-                </div>
-            </div>
+        <form onSubmit={enviarForm}>
+            <input type="text" value={textTasca} onChange={canviTextTasca} />
+            <button type="submit"> Afegir tasca </button>
         </form>
     );
 };
