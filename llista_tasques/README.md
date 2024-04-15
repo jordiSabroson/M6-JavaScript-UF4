@@ -1,8 +1,20 @@
-# React + Vite
+# Exercici React: Llistat de tasques
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Objectiu
 
-Currently, two official plugins are available:
+- Crear una llista de tasques amb un formulari per afegir-ne.
+- Cada tasca es podrà eliminar o modificar el seu estat a completada.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Descripció components
+
+**- Component LlistatTasques**
+  - Crea el component general que contindrà el llistat de tasques. Inicialment només ha de tenir un títol.
+
+**- Component Tasca:**
+  - Crea el component Tasca. Inicialment ha de tenir un text i un botó per eliminar-les
+  - Fes que el botó per eliminar sigui un React icon.
+  - Fes que tingui una nova prop que sigui completada (boolean)
+    - completada = true → className = tascaCompletada → css = background i text tatxat (text-decoration: line-throught)
+
+**- Component FormulariTasques:**
+  - Ha de tenir un input i un botó.
