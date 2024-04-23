@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "72602db7-9705-487e-ba66-5e844853fce3",
+		"name": "the movie databaes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33093630"
+	},
+	"item": [
+		{
+			"name": "request token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/authentication/token/new?api_key=28096a863dd408271cceaf0b3d15e662",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"authentication",
+						"token",
+						"new"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "28096a863dd408271cceaf0b3d15e662"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SESSION ID",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{value}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "query",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"request_token\": \"c63d0919b6d42cd5e997e836bc7aac8ea27385c0\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.themoviedb.org/3/authentication/session/new?api_key=28096a863dd408271cceaf0b3d15e662",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"authentication",
+						"session",
+						"new"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "28096a863dd408271cceaf0b3d15e662"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "favourite movies",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODA5NmE4NjNkZDQwODI3MWNjZWFmMGIzZDE1ZTY2MiIsInN1YiI6IjY2MjAwYmE2ZWNhZWY1MDE2M2Y5YWE4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gi6KNBH7itADdg2UX7mHWfEPtTzX_5-9Dx37fm-TIzg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/account/21219530/favorite/movies",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"account",
+						"21219530",
+						"favorite",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search movie",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{value}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "query",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.themoviedb.org/3/search/movie?query=cocaine bear",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"search",
+						"movie"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "cocaine bear"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add to watchlist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODA5NmE4NjNkZDQwODI3MWNjZWFmMGIzZDE1ZTY2MiIsInN1YiI6IjY2MjAwYmE2ZWNhZWY1MDE2M2Y5YWE4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gi6KNBH7itADdg2UX7mHWfEPtTzX_5-9Dx37fm-TIzg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"media_type\": \"movie\",\n  \"media_id\": 613819,\n  \"watchlist\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.themoviedb.org/3/account/{{account_id}}}/watchlist",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"account",
+						"{{account_id}}}",
+						"watchlist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODA5NmE4NjNkZDQwODI3MWNjZWFmMGIzZDE1ZTY2MiIsInN1YiI6IjY2MjAwYmE2ZWNhZWY1MDE2M2Y5YWE4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gi6KNBH7itADdg2UX7mHWfEPtTzX_5-9Dx37fm-TIzg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Llista to flama\",\n    \"description\": \"To flamota\",\n    \"language\": \"cat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.themoviedb.org/3/list",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get lists",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODA5NmE4NjNkZDQwODI3MWNjZWFmMGIzZDE1ZTY2MiIsInN1YiI6IjY2MjAwYmE2ZWNhZWY1MDE2M2Y5YWE4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gi6KNBH7itADdg2UX7mHWfEPtTzX_5-9Dx37fm-TIzg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/account/{{account_id}}/lists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"account",
+						"{{account_id}}",
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add movie to list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyODA5NmE4NjNkZDQwODI3MWNjZWFmMGIzZDE1ZTY2MiIsInN1YiI6IjY2MjAwYmE2ZWNhZWY1MDE2M2Y5YWE4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gi6KNBH7itADdg2UX7mHWfEPtTzX_5-9Dx37fm-TIzg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"media_id\": \"804150\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.themoviedb.org/3/list/8298329/add_item",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"list",
+						"8298329",
+						"add_item"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
