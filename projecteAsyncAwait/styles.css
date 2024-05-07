@@ -115,3 +115,10 @@ main{
     color: var(--gray);
 }
 
+#loading {
+    position: fixed;
+    top: 43vh;
+    left: 43vw;
+    display: none;
+    z-index: 9999; 
+}

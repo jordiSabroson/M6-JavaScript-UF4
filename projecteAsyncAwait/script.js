@@ -10,8 +10,30 @@ let moviesResult = document.getElementById("moviesResult");
 
 
 function setFav(id, favBool) {
-    moviesResult.innerHTML = "";
 
+    // Paràmetres que s'envien amb la petició POST al fetch
+    let options = {
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            'content-type': 'application/json',
+            Authorization: `Bearer ${keys.bearer_id}`
+        },
+        // Cos de la petició post per afegir una pel·lícula a preferits
+        body: JSON.stringify({
+            media_type: 'movie',
+            media_id: id,
+            favorite: favBool
+        })
+    };
+
+    // Fetch a la url junt amb els paràmetres
+    fetch(`https://api.themoviedb.org/3/account/${keys.account_id}/favorite`, options)
+        .then(response => response.json())
+        .then(console.log(id + " marked as true/false"))
+        .catch(error => console.log(error));
+
+    // Un cop s'ha fet el fetch, s'invoca la funció per mostrar els preferits actualitzats
     showFavs();
 }
 
@@ -26,6 +48,8 @@ function showFavs() {
             let moviesResult = document.getElementById("moviesResult");
             moviesResult.innerHTML = "";
             console.log(data);
+
+            // Per cada resultat, s'invoca a la funció printMovie que imprimeix cada pel·lícula
             data.results.forEach(movie => {
                 printMovie(movie, true, false);
             });
@@ -35,12 +59,90 @@ function showFavs() {
         })
 }
 
-function searchMovies(query) {
-    clearInput();
-    removeActive();
+async function searchMovies(query, page) {
+    try {
+        // Funcions que netejen l'input del searchbar
+        clearInput();
+        removeActive();
+
+        // Fem ús del async await per fer la petició de búsqueda
+        let response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${keys.api_key}&query=${query}`);
+        
+        // Si la response no dóna ok, salta un error
+        if (!response.ok) {
+            throw new Error('Error de conexió')
+        }
+
+        // convertim les dades a json
+        let data = await response.json();
+
+        total_pages = data.total_pages;
+        current_page = data.page;
+
+        // Per cada pel·lícula, es comprova si està marcada com a preferida o no i despres s'imprimeix.
+        for (const movie of data.results) {
+            const isFav = await checkIfFavorite(movie.id);
+            printMovie(movie, isFav, false); // false para watchlist, ya que no estamos comprobando eso aquí
+        }
+
+        // S'amaga el gif de loading
+        hideLoading();
+
+    } catch (error) {
+        console.log('Error: ', error);
+    }
+}
+
+// Funció que es crida a l'hora d'imprimir els resultats de la searchbar que comprova si la pel·lícula
+// que s'ha d'imprimir esta marcada com a preferida o no
+async function checkIfFavorite(id) {
+    try {
+        let response = await fetch(`https://api.themoviedb.org/3/movie/${id}/account_states?api_key=${keys.api_key}`, {
+            headers: {
+                Authorization: `Bearer ${keys.bearer_id}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Error de conexió')
+        }
+        const data = await response.json();
+        return data.favorite;
+    } catch (error) {
+        console.log('Error: ', error);
+        return false;
+    }
 }
 
 
+// SCROLL INFINIT
+
+var total_pages = 0;
+var current_page = 1;
+var isFetching = false;
+
+window.addEventListener('scroll', async () => {
+    if (isFetching)
+        return;
+
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 5 && current_page < total_pages) {
+        isFetching = true;
+        showLoading();
+
+        current_page++;
+        await searchMovies(query, current_page);
+        isFetching = false;
+    }
+});
+
+function showLoading() {
+    document.getElementById("loading").style.display = "flex";
+}
+
+function hideLoading() {
+    document.getElementById("loading").style.display = "none";
+
+}
 
 /* FUNCIONS D'INTERACCIÓ AMB EL DOM */
 
