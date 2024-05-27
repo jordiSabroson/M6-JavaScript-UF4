@@ -1,22 +1,17 @@
+// src/pages/IndexMenu.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 
 const IndexMenu = () => {
     return (
         <div>
-            <h1>Menú principal</h1>
-            <div className="card-container">
-                <Card
-                    title="Anar al llistat de pel·lícules"
-                    description="Fes clic aquí per veure la llista de pel·lícules."
-                    link="/movies/list"
-                />
-                <Card
-                    title="Afegir una pel·lícula"
-                    description="Fes clic aquí per afegir una nova pel·lícula a la llista."
-                    link="/movies/add"
-                />
-            </div>
+            <Card>
+                <Link to="/movies/list">Llistat de pel·lícules</Link>
+            </Card>
+            <Card>
+                <Link to="/movies/add">Afegir pel·lícula</Link>
+            </Card>
         </div>
     );
 };
