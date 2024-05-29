@@ -1,7 +1,6 @@
-// src/pages/MoviesAdd.jsx
 import React, { useState } from 'react';
-import { database } from '../config/config';
-import { ref, push } from 'firebase/database';
+import { addDoc, collection, getFirestore } from 'firebase/firestore'; 
+import { database } from '../config/config'; 
 
 const MoviesAdd = () => {
     const [title, setTitle] = useState('');
@@ -14,31 +13,31 @@ const MoviesAdd = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Guardar la pel·lícula en Firebase
+        
         try {
-            await push(ref(database, 'movies'), {
+            const newMovie = {
                 title,
                 description,
                 director,
                 imageURL,
-                rating,
-                year,
-                duration
-            });
+                rating: Number(rating), 
+                year: Number(year), 
+                duration: Number(duration), 
+            };
+            console.log(newMovie)
+            await addDoc(collection(database, 'movies'), newMovie); 
             alert('Pel·lícula afegida amb èxit!');
+
+            setTitle('');
+            setDescription('');
+            setDirector('');
+            setImageURL('');
+            setRating('');
+            setYear('');
+            setDuration('');
         } catch (error) {
             console.error('Error afegint pel·lícula:', error.message);
         }
-
-        // Reset de les entrades del formulari
-        setTitle('');
-        setDescription('');
-        setDirector('');
-        setImageURL('');
-        setRating('');
-        setYear('');
-        setDuration('');
     };
 
     return (

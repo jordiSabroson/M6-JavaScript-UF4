@@ -1,21 +1,23 @@
-// src/pages/MoviesList.jsx
 import React, { useState, useEffect } from 'react';
-import { database } from '../config/config';
-import { ref, get } from 'firebase/database';
+import { database } from '../config/config'; // Assuming correct import path
+import { collection, getDocs, query } from 'firebase/firestore'; // Import Firestore functions
 import MovieCard from '../components/MovieCard';
 
 const MoviesList = () => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
-        // Llegeix les pel·lícules de Firebase
+        // Fetch movies from Firestore
         const fetchMovies = async () => {
-            const snapshot = await get(ref(database, 'movies'));
-            const moviesData = snapshot.val();
-            if (moviesData) {
-                const moviesArray = Object.values(moviesData);
-                setMovies(moviesArray);
-            }
+            const moviesCollectionRef = collection(database, 'movies'); // Reference movies collection
+            const q = query(moviesCollectionRef); // Create an empty query (optional)
+
+            const querySnapshot = await getDocs(q); // Get all movies in the collection
+            const moviesData = querySnapshot.docs.map((doc) => ({
+                ...doc.data(), // Extract data from each document
+                id: doc.id, // Add document ID for potential use
+            }));
+            setMovies(moviesData);
         };
 
         fetchMovies();
@@ -25,7 +27,7 @@ const MoviesList = () => {
         <div className="movie-list">
             {movies.map((movie, index) => (
                 <MovieCard
-                    key={index}
+                    key={movie.id || index} // Use document ID as key if available
                     title={movie.title}
                     image={movie.imageURL}
                     rate={movie.rating}
